@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="GameApp" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="24" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="MAIN_CLASS_NAME" value="game.GameApp" />
+    <module name="PelletPursuit" />
+    <option name="VM_PARAMETERS" value="--enable-native-access=javafx.graphics,javafx.base,javafx.controls" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

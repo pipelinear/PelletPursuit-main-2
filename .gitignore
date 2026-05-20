@@ -1,0 +1,54 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+.kotlin
+docs/Canvas*
+docs/grades*.csv
+docs/*.csv
+docs/TODO.md
+
+### IntelliJ IDEA ###
+# Commit project-level config (modules, misc, encodings, vcs) so IntelliJ
+# marks target/ as excluded on first open — prevents editing compiled output.
+# Ignore only user-specific files that differ per machine.
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/usage.statistics.xml
+.idea/dictionaries/
+.idea/shelf/
+.idea/httpRequests/
+.idea/sonarlint/
+*.iws
+*.ipr
+# Ignore all .iml files except the root module file
+*.iml
+!PelletPursuit.iml
+
+### Runtime artifacts ###
+pellet_pursuit_scores.txt
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
