@@ -6,13 +6,14 @@ import javafx.scene.paint.Color;
 
 public class Player extends Sprite {
 
-    // Requested direction from keyboard; actual direction changes only at tile centers
+    // Requested direction from keyboard; actual direction changes only at tile
+    // centers
     private int dx = 0, dy = 0;
     private int nextDx = 0, nextDy = 0;
 
     // Mouth animation
     private double mouthAngle = 45;
-    private double mouthDir   = -1;
+    private double mouthDir = -1;
 
     // Change this to any Color to customize your player's appearance
     protected Color bodyColor = Color.YELLOW;
@@ -22,29 +23,44 @@ public class Player extends Sprite {
 
     public Player(GameMap map) {
         super(
-            map.spawnCol(GameMap.Tile.SPAWN_PLAYER) * GameMap.TILE,
-            map.spawnRow(GameMap.Tile.SPAWN_PLAYER) * GameMap.TILE,
-            GameMap.TILE,
-            2.5
-        );
+                map.spawnCol(GameMap.Tile.SPAWN_PLAYER) * GameMap.TILE,
+                map.spawnRow(GameMap.Tile.SPAWN_PLAYER) * GameMap.TILE,
+                GameMap.TILE,
+                2.5);
         this.startCol = map.spawnCol(GameMap.Tile.SPAWN_PLAYER);
         this.startRow = map.spawnRow(GameMap.Tile.SPAWN_PLAYER);
     }
 
     public void handleKey(KeyCode key) {
-        // TODO (Phase 1): Queue the player's next movement direction.
+        // COMPLETLE - (Phase 1): Queue the player's next movement direction.
         //
         // Each arrow key (and WASD equivalent) maps to a (nextDx, nextDy) pair:
-        //   right / D  →  nextDx =  1, nextDy =  0
-        //   left  / A  →  nextDx = -1, nextDy =  0
-        //   down  / S  →  nextDx =  0, nextDy =  1
-        //   up    / W  →  nextDx =  0, nextDy = -1
-        //
-        // Use a switch statement on `key` with KeyCode.RIGHT, LEFT, DOWN, UP
-        // (and D, A, S, W). The movement engine reads nextDx/nextDy every frame
-        // and applies the turn when the player reaches the next tile center.
-        //
-        // Without this the player sits still and ignores all input.
+        switch (key) {
+            case RIGHT, D -> {
+                nextDx = 1;
+                nextDy = 0;
+            }
+            case LEFT, A -> {
+                nextDx = -1;
+                nextDy = 0;
+            }
+            case DOWN, S -> {
+                nextDx = 0;
+                nextDy = 1;
+            }
+            case UP, W -> {
+                nextDx = 0;
+                nextDy = -1;
+            }
+            default -> {
+            }
+            //
+            // Use a switch statement on `key` with KeyCode.RIGHT, LEFT, DOWN, UP
+            // (and D, A, S, W). The movement engine reads nextDx/nextDy every frame
+            // and applies the turn when the player reaches the next tile center.
+            //
+            // Without this the player sits still and ignores all input.
+        }
     }
 
     @Override
@@ -76,7 +92,8 @@ public class Player extends Sprite {
         // TODO (Phase 1): Decide whether the player can enter tile (nc, nr).
         // Use map.isWall(nc, nr) and map.isOutOfGrid(nc, nr).
         // Think about what should happen when (nc, nr) is outside the grid entirely —
-        // should that block the player or allow movement? Add a comment explaining your reasoning.
+        // should that block the player or allow movement? Add a comment explaining your
+        // reasoning.
         boolean canMove = true; // placeholder — replace this line
         if (canMove) {
             x = nx;
@@ -85,20 +102,32 @@ public class Player extends Sprite {
 
         // Continuously correct the perpendicular axis so straight movement
         // never drifts off-center in a corridor
-        if (dx != 0) y = map.tileCenterY(row(map)) - size / 2.0;
-        if (dy != 0) x = map.tileCenterX(col(map)) - size / 2.0;
+        if (dx != 0)
+            y = map.tileCenterY(row(map)) - size / 2.0;
+        if (dy != 0)
+            x = map.tileCenterX(col(map)) - size / 2.0;
 
         // Wrap tunnels — any open edge row/col wraps to the opposite side
-        if (x + size < 0      && map.isHorizontalTunnel(row(map))) x = map.width  - size;
-        if (x > map.width     && map.isHorizontalTunnel(row(map))) x = 0;
-        if (y + size < 0      && map.isVerticalTunnel(col(map)))   y = map.height - size;
-        if (y > map.height    && map.isVerticalTunnel(col(map)))   y = 0;
+        if (x + size < 0 && map.isHorizontalTunnel(row(map)))
+            x = map.width - size;
+        if (x > map.width && map.isHorizontalTunnel(row(map)))
+            x = 0;
+        if (y + size < 0 && map.isVerticalTunnel(col(map)))
+            y = map.height - size;
+        if (y > map.height && map.isVerticalTunnel(col(map)))
+            y = 0;
 
         // Mouth animates only while moving; freezes when blocked
         if (canMove) {
             mouthAngle += mouthDir * 4;
-            if (mouthAngle <= 5)  { mouthAngle = 5;  mouthDir =  1; }
-            if (mouthAngle >= 45) { mouthAngle = 45; mouthDir = -1; }
+            if (mouthAngle <= 5) {
+                mouthAngle = 5;
+                mouthDir = 1;
+            }
+            if (mouthAngle >= 45) {
+                mouthAngle = 45;
+                mouthDir = -1;
+            }
         }
     }
 
@@ -114,10 +143,14 @@ public class Player extends Sprite {
     public void draw(GraphicsContext gc) {
         // Rotation based on movement direction
         double angle = 0;
-        if      (dx ==  1) angle = 0;
-        else if (dx == -1) angle = 180;
-        else if (dy == -1) angle = 270;
-        else if (dy ==  1) angle = 90;
+        if (dx == 1)
+            angle = 0;
+        else if (dx == -1)
+            angle = 180;
+        else if (dy == -1)
+            angle = 270;
+        else if (dy == 1)
+            angle = 90;
 
         gc.save();
         gc.translate(centerX(), centerY());
@@ -134,13 +167,20 @@ public class Player extends Sprite {
         gc.restore();
     }
 
-    public int getDx() { return dx; }
-    public int getDy() { return dy; }
+    public int getDx() {
+        return dx;
+    }
+
+    public int getDy() {
+        return dy;
+    }
 
     public void resetPosition() {
         x = startCol * GameMap.TILE;
         y = startRow * GameMap.TILE;
-        dx = 0; dy = 0;
-        nextDx = 0; nextDy = 0;
+        dx = 0;
+        dy = 0;
+        nextDx = 0;
+        nextDy = 0;
     }
 }
