@@ -50,7 +50,7 @@ public class Player extends Sprite {
             }
             case UP, W -> {
                 nextDx = 0;
-                nextDy = -1;
+                nextDy = -1; // workPLEASE
             }
             default -> {
             }
