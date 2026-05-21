@@ -1,9 +1,10 @@
 package game;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import java.util.EnumMap;
 import java.util.EnumSet;
+
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 // Pac-Man maze.
 //
@@ -181,9 +182,9 @@ public class GameMap {
     }
 
     public boolean isWall(int col, int row) {
-        // TODO (Phase 1): Return true if the tile at (col, row) is a wall.
+        // TODO (Phase 1): Return true if the tile at (col, row) is a wall. COMPLETE
         // Use getTile(col, row) — one line is enough.
-        return false; // placeholder — replace this
+        return getTile(col, row) == Tile.W;
     }
 
     // Returns 0 if nothing eaten, 10 for dot, 50 for power pellet
@@ -215,13 +216,12 @@ public class GameMap {
     public void draw(GraphicsContext gc, Color wallColor) {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, width, height);
-
         // TODO (Phase 1): Loop over every row r (0..rows-1) and every col c (0..cols-1).
         // Inside the loop:
         //   double px = c * TILE;        // pixel x of this tile's top-left corner
         //   double py = r * TILE;        // pixel y of this tile's top-left corner
         //   Tile t = state[r][c];        // what tile is here?
-        //
+        //          COMPLETE
         // Then draw based on t using a switch statement:
         //   Tile.W  — wall: a rounded rectangle inset 1 px on each side
         //     gc.setFill(wallColor);
@@ -236,5 +236,30 @@ public class GameMap {
         //     gc.fillOval(cx - 7, cy - 7, 14, 14);
         //
         //   Tile.E  — empty: nothing to draw, the black background shows through
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                double px = c * TILE;
+                double py = r * TILE;
+                Tile t = state[r][c];
+                switch (t) {
+                    case W -> {
+                        gc.setFill(wallColor);
+                        gc.fillRoundRect(px + 1, py + 1, TILE - 2, TILE - 2, 6, 6);
+                    }
+                    case D -> {
+                        gc.setFill(dotColor);
+                        gc.fillOval(px + TILE / 2.0 - 3, py + TILE / 2.0 - 3, 6, 6);
+                    }
+                    case P -> {
+                        gc.setFill(dotColor);
+                        gc.fillOval(px + TILE / 2.0 - 7, py + TILE / 2.0 - 7, 14, 14);
+                    }
+                    case E -> {
+                    }
+                    default -> {
+                    }
+                }
+            }
+        }
     }
 }
