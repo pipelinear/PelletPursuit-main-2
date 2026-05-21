@@ -175,9 +175,9 @@ public class GameMap {
     }
 
     public boolean isOutOfGrid(int col, int row) {
-        // TODO (Phase 1): Return true if (col, row) is outside the grid.
+        // TODO (Phase 1): Return true if (col, row) is outside the grid. COMPLETE
+        return col < 0 || col >= cols || row < 0 || row >= rows;
         // The grid has 'cols' columns (0 to cols-1) and 'rows' rows (0 to rows-1).
-        return false; // placeholder — replace this
     }
 
     public boolean isWall(int col, int row) {
