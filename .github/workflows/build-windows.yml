@@ -36,7 +36,7 @@ jobs:
             --name PelletPursuit `
             --input target `
             --main-jar $env:JAR_NAME `
-            --main-class com.example.pelletpursuit.Main `
+            --main-class game.GameApp `
             --dest installer
 
       - name: Upload portable app
