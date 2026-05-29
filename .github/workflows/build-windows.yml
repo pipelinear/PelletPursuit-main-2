@@ -21,8 +21,27 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean package
 
-      - name: Upload build files
+      - name: Find built JAR
+        shell: powershell
+        run: |
+          $jar = Get-ChildItem -Path target -Filter "*.jar" | Where-Object { $_.Name -notlike "*sources*" -and $_.Name -notlike "*javadoc*" } | Select-Object -First 1
+          echo "JAR_NAME=$($jar.Name)" >> $env:GITHUB_ENV
+
+      - name: Create Windows EXE
+        shell: powershell
+        run: |
+          mkdir installer
+          jpackage `
+            --type exe `
+            --name PelletPursuit `
+            --input target `
+            --main-jar $env:JAR_NAME `
+            --dest installer `
+            --win-shortcut `
+            --win-menu
+
+      - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
-          name: PelletPursuit-Windows
-          path: target/
+          name: PelletPursuit-Windows-EXE
+          path: installer/*.exe
