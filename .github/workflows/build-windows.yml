@@ -21,10 +21,20 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean package
 
+      - name: Copy runtime dependencies
+        run: mvn dependency:copy-dependencies -DincludeScope=runtime -DoutputDirectory=target/dependency
+
+      - name: Prepare app input folder
+        shell: powershell
+        run: |
+          mkdir app-input
+          Copy-Item target\*.jar app-input\
+          Copy-Item target\dependency\*.jar app-input\
+
       - name: Find built JAR
         shell: powershell
         run: |
-          $jar = Get-ChildItem -Path target -Filter "*.jar" | Where-Object { $_.Name -notlike "*sources*" -and $_.Name -notlike "*javadoc*" } | Select-Object -First 1
+          $jar = Get-ChildItem -Path app-input -Filter "*.jar" | Where-Object { $_.Name -notlike "*sources*" -and $_.Name -notlike "*javadoc*" -and $_.Name -like "PelletPursuit*" } | Select-Object -First 1
           echo "JAR_NAME=$($jar.Name)" >> $env:GITHUB_ENV
 
       - name: Create portable Windows app folder
@@ -34,7 +44,7 @@ jobs:
           jpackage `
             --type app-image `
             --name PelletPursuit `
-            --input target `
+            --input app-input `
             --main-jar $env:JAR_NAME `
             --main-class game.GameApp `
             --dest installer
