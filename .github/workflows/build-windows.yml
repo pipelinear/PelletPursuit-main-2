@@ -37,9 +37,7 @@ jobs:
             --input target `
             --main-jar $env:JAR_NAME `
             --main-class com.example.pelletpursuit.Main `
-            --dest installer `
-            --win-shortcut `
-            --win-menu
+            --dest installer
 
       - name: Upload portable app
         uses: actions/upload-artifact@v4
