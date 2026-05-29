@@ -1,4 +1,4 @@
-name: Build Windows EXE
+name: Build Portable Windows App
 
 on:
   push:
@@ -27,12 +27,12 @@ jobs:
           $jar = Get-ChildItem -Path target -Filter "*.jar" | Where-Object { $_.Name -notlike "*sources*" -and $_.Name -notlike "*javadoc*" } | Select-Object -First 1
           echo "JAR_NAME=$($jar.Name)" >> $env:GITHUB_ENV
 
-      - name: Create Windows EXE
+      - name: Create portable Windows app folder
         shell: powershell
         run: |
           mkdir installer
           jpackage `
-            --type exe `
+            --type app-image `
             --name PelletPursuit `
             --input target `
             --main-jar $env:JAR_NAME `
@@ -41,8 +41,8 @@ jobs:
             --win-shortcut `
             --win-menu
 
-      - name: Upload EXE
+      - name: Upload portable app
         uses: actions/upload-artifact@v4
         with:
-          name: PelletPursuit-Windows-EXE
-          path: installer/*.exe
+          name: PelletPursuit-Portable-Windows
+          path: installer/
